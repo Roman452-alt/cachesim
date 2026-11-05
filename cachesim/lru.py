@@ -1,3 +1,4 @@
+from .base import BaseCache
 class _Node:
     def __init__(self,page:int):
         """узел двусвязного списка для хранения страницы в LRU"""
@@ -6,14 +7,16 @@ class _Node:
         self.next = None
         self.hits = 0
         self.misses = 0
-class LRU:
+class LRU(BaseCache):
     def __init__(self,capacity:int):
-        self.capacity = capacity
-        self.head = None # самый свежий узел
-        self.tail = None # самый старый узел
-        self._nodes = {} # хэш-таблица для быстрого доступа к узлам по номеру страницы
-        self.hits = 0
-        self.misses = 0
+           if capacity <= 0:
+               raise ValueError(f"Capacity must be positive, got {capacity}")
+           self.capacity = capacity
+           self.head = None # самый свежий узел
+           self.tail = None # самый старый узел
+           self._nodes = {} # хэш-таблица для быстрого доступа к узлам по номеру страницы
+           self.hits = 0
+           self.misses = 0
     def add_to_front(self, node:_Node) -> None:
         node.prev = None
         node.next = self.head
