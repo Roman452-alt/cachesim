@@ -1,5 +1,7 @@
 import argparse
 import sys
+from .lfu import LFU
+from .opt import OPT
 from collections.abc import Sequence
 
 from cachesim.clock import Clock
@@ -10,6 +12,8 @@ from .simulator import run_simulation
 ALGORITHMS = {
     "lru": LRU,
     "clock": Clock,
+    "lfu": LFU,
+    "opt": OPT,
 }
 
 
@@ -52,6 +56,10 @@ def main() -> None:
 
     algo_cls = ALGORITHMS[args.algo]
     cache = algo_cls(capacity=args.capacity)
+    if args.algo == "opt":
+       cache = OPT(capacity=args.capacity, future_trace=args.pages)
+    else:
+       cache = algo_cls(capacity=args.capacity)
 
     result = run_simulation(cache, args.pages)
 
