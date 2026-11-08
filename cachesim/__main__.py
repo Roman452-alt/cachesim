@@ -2,12 +2,14 @@ import argparse
 import sys
 from collections.abc import Sequence
 
+from cachesim.clock import Clock
+
 from .lru import LRU
 from .simulator import run_simulation
 
-# Реестр доступных алгоритмов для легкого расширения (Clock, FIFO и т.д.)
 ALGORITHMS = {
     "lru": LRU,
+    "clock": Clock,
 }
 
 
